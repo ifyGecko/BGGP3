@@ -43,7 +43,7 @@ Submission for BGGP3: Crash
   A WAD file starts with a header that contains magic bytes to specify the type of WAD, the number of lumps (game
   data assets), and a file position to where a directory containing all the info needed to process the lumps.
   Sounds like a decent way of organizing data, except that they defined the 'numlumps' field as a signed integer!
-  This gave me a little bit of a laugh and a curious idea, could I just make a WAD file that contain the magic bytes
+  This gave me a little bit of a laugh and a curious idea, could I just make a WAD file that contains the magic bytes
   and numlumps but set numlumps as -1? Yes, I in fact could and it gloriously segfaults the engine! I now had the
   basis for a small, only 8 bytes, file that could crash a doom engine!
   
@@ -82,7 +82,7 @@ Submission for BGGP3: Crash
   
   Due to the limited amount of time I was able to spend on this before submission I was not able to find if there
   was any sort of exploit that could be created out of this bug. I personally don't really think there would be
-  but eh even if not I still found this a pretty neat little crash.
+  but even if not I still found this a pretty neat little crash.
   
 ## Neat Historical Findings
   While researching this bug I spent a little bit of time digging into historical ties to the zone memory
