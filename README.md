@@ -61,6 +61,8 @@ Submission for BGGP3: Crash
   
   file contents base64: SVdBRP////8=
   
+  file creation: echo -ne "IWAD\xff\xff\xff\xff" > crash.wad
+  
   sha256sum: 092b95e1dfb2a22d58441239895f7ae2c74db1187e970901e0955ae92f30bb0e
   
   It makes sense that early in the execution the WAD file would need to be initialized into memory since it contains
@@ -72,13 +74,13 @@ Submission for BGGP3: Crash
   value the next source line end ups invoking a Z_Malloc call requesting a memory block of a negative size.
   
   Into the Z_Malloc, the general idea is that the memory zone has a 'rover' that is used to traverse the linked
-  list of memory so a newblock is found by peeking behind the rover's current position to see if it is free. Then
+  list of memory. A newblock is found by peeking behind the rover's current position to see if it is free then,
   it begins looping through the linked list checking if the current block is tagged to be free'd or already free
   for an allocation. Now it begins setting up the metadata of the block so the linked list stucture will be
   traversable to include this new block pointing the prev block to it and so on along with indicating extra free
-  space in the block. The problem falls on line 329 where the newblock->next->prev dereference now does not
-  point to the actual previous field but the id and size field which is not a valid memory address causing the
-  segfault.
+  space in the block. The problem falls on line 329 where the newblock->next->prev dereference will cause a segfault.
+  This occurs because the newblock is given by base + size but since the size parameter was negative, -1, this 
+  makes the offset accounted for the header size put the prev field on top of the tag and id fields of the base.
   
   Due to the limited amount of time I was able to spend on this before submission I was not able to find if there
   was any sort of exploit that could be created out of this bug. I personally don't really think there would be
