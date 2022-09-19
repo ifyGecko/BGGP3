@@ -80,11 +80,7 @@ Submission for BGGP3: Crash
   traversable to include this new block pointing the prev block to it and so on along with indicating extra free
   space in the block. The problem falls on line 329 where the newblock->next->prev dereference will cause a segfault.
   This occurs because the newblock is given by base + size but since the size parameter was negative, -1, this 
-  makes the offset accounted for the header size put the prev field on top of the tag and id fields of the base.
-  
-  Due to the limited amount of time I was able to spend on this before submission I was not able to find if there
-  was any sort of exploit that could be created out of this bug. I personally don't really think there would be
-  but even if not I still found this a pretty neat little crash.
+  makes the offset accounted for the header size put the prev field on top of the tag and id fields of the newblock.
   
 ## Neat Historical Findings
   While researching this bug I spent a little bit of time digging into historical ties to the zone memory
